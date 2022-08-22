@@ -20,21 +20,23 @@ const MessageList = (props) => {
   /**/
 
   return (
-    props.messages.map((obj, index) => {
-      if (obj.id === Number(props.chatId)) {
-        return (
-          <Message
-            id={obj.id}
-            text={obj.message}
-            // text={undefined}
-            author={obj.author}
-            myString="it's my string"
-            key={index}
-            // messageColor={props.messageColor}
-          />
-        )
-      }
-    })
+    <>
+      {props.messages.map((obj, index) => {
+        if (obj.id === Number(props.chatId)) {
+          return (
+            <Message
+              id={obj.id}
+              text={obj.message}
+              // text={undefined}
+              author={obj.author}
+              myString="it's my string"
+              key={index}
+              // messageColor={props.messageColor}
+            />
+          )
+        }
+      })}
+    </>
   )
 }
 

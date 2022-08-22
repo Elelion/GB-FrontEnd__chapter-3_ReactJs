@@ -106,9 +106,14 @@ const App = () => {
 
 export default App;
 
-// 6 / 0
+// 7 / 55
 
 /**
  * ставим Material UI
  * npm install @mui/material @emotion/react @emotion/styled
+ */
+
+/**
+ * ставит redux-thunk
+ * npm i redux-thunk
  */

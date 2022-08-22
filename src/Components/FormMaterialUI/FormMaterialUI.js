@@ -103,7 +103,7 @@ console.log(_sum(2, 3)) // 5
  */
 const withContext = (Component) => {
   return (props) => {
-    console.log(props );
+    console.log(props);
 
     const {messageColor} = useContext(ThemeContext);
 

@@ -1,6 +1,10 @@
 import {profileReducer} from "./profile/reducer";
-import {chatReducer} from "./chats/reducer";
-import {createStore, combineReducers} from "redux";
+import {createStore, combineReducers, applyMiddleware} from "redux";
+import {messagesReducer} from "./messages/reducer";
+import thunk from "redux-thunk";
+
+// добавляем для работы с расширением ReduxDevTools
+const devToolsForExtension = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
 /**
  * combineReducers - запихнет все в одну большую ф-цию и будет выдавать нам
@@ -8,7 +12,7 @@ import {createStore, combineReducers} from "redux";
  */
 const rootReducer = combineReducers({
   profile: profileReducer,
-  chats: chatReducer,
+  messages: messagesReducer,
 })
 
 /**
@@ -17,9 +21,10 @@ const rootReducer = combineReducers({
  */
 export const store = createStore(
   rootReducer,
+  devToolsForExtension,
 
-  // добавляем для работы с расширением ReduxDevTools
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // добавляем middleware
+  applyMiddleware(thunk),
 );
 
 /**
