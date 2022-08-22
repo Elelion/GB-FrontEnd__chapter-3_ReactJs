@@ -8,7 +8,10 @@ import {useState} from "react";
 import {ThemeContext} from "../helpers/ThemeContext";
 import {AUTHORS} from "../helpers/constants";
 import {useDispatch, useSelector} from "react-redux";
-import {addChat, deleteChat} from "../../store/chats/actions";
+import {addChat, deleteChat} from "../../store/messages/actions";
+import {selectMessages} from "../../store/messages/selectors";
+import {addMessage} from "../../store/messages/actions";
+import MessageList from "../MessageList/MessageList";
 
 /**/
 
@@ -48,12 +51,6 @@ const initialMessages = [
   { id: 3, message: 'msg3', author: 'Pet' },
 ];
 
-console.log('---');
-console.log('reduce: ')
-console.log(initialChats);
-console.log(initialMessages);
-console.log('...');
-
 /**/
 
 export const Router = () => {
@@ -66,10 +63,16 @@ export const Router = () => {
    */
   // const [_chatList, setChatList] = useState(initialChats);
   // useSelector - хук, позволяющий получить данные из store
-  const chatList = useSelector(state => state.chats);
+
+    // chatList - переносим в messages, что бы была единая база чатов
+  // const chatList = useSelector(state => state.chats);
+  const chatList = useSelector(state => state.messages);
+  console.warn(chatList[0].name)
   const dispatch = useDispatch();
 
-  const [messageList, setMessageList] = useState(initialMessages);
+  // теперь будем работать со store/messages/...
+  // const [messageList, setMessageList] = useState(initialMessages);
+  const messageList = useSelector(selectMessages);
 
   const handleDeleteChat = (idToDelete) => {
     // делаем через dispatch
@@ -90,20 +93,35 @@ export const Router = () => {
   /**/
 
   const sendMessage = (message, author) => {
+
+    /**
+     * можно так
+     * const newId = `${Date.now()}`;
+     * но мы делаем красиво
+     */
+    const newId = messageList[messageList.length - 1].id + 1;
+
     const newMsg = {
       message,
       author,
-      id: messageList[messageList.length - 1].id + 1,
+      id: newId,
     }
 
-    setMessageList((prevMessageList) => [
-      ...prevMessageList, newMsg
-    ]);
+    // setMessageList((prevMessageList) => [
+    //   ...prevMessageList, newMsg
+    // ]);
+    let nameChat = 'Chat ' + newId;
+    dispatch(addMessage(newId, nameChat, newMsg));
+    dispatch(addChat(newId, nameChat, newMsg));
 
     /**/
 
-    const newId = `${Date.now()}`;
-    dispatch(addChat(newId, author, message))
+    /**
+     * убираем по той же причине что и
+     * const chatList = useSelector(state => state.chats);
+     * см выше
+     */
+    // dispatch(addChat(newId, author, message))
   }
 
   /**
@@ -192,6 +210,7 @@ export const Router = () => {
           element={<Chat
             sendMessage={sendMessage}
             messageList={messageList}
+            // messageList={chatList}
             handleAddMessage={handleAddMessage}
             /*messageColor={messageColor}*/
           />}
