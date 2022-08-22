@@ -30,6 +30,7 @@ const MessageList = (props) => {
             author={obj.author}
             myString="it's my string"
             key={index}
+            // messageColor={props.messageColor}
           />
         )
       }

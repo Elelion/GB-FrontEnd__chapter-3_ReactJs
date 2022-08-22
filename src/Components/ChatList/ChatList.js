@@ -20,24 +20,27 @@ export const ChatList = () => {
 
   const [chatList, setChatList] = useState(chats);
 
-  const deleteChat = (idToDelete) => {
-    const newChatList = {...chatList}
+  const handleDeleteChat = (idToDelete) => {
+    const newChats = chatList.filter(chat => chat.id !== idToDelete);
+    setChatList(newChats);
 
-    // delete - мутирует объект с которым мы взаимодействуем
-    delete newChatList[idToDelete];
-    console.log(chatList);
-    setChatList(newChatList);
-    console.log(chatList);
+    /**
+     * delete - мутирует объект с которым мы взаимодействуем, по этому
+     * работать только с копией
+     */
+    // const newMessageList = {...chatList};
+    // delete newMessageList[idToDelete];
+    // setChatList(newMessageList);
   }
 
   return (
     <List>
-      {chats.map((chat) => (
+      {chatList.map((chat) => (
         <ListItem key={chat.id}>
           <Link to={`/chats/${chat.id}`}>{chat.name}</Link>
 
           <div
-            onClick={() => deleteChat(chat.id)}
+            onClick={() => handleDeleteChat(chat.id)}
             style={{marginLeft: '10px', cursor: 'pointer'}}
           >
             del
