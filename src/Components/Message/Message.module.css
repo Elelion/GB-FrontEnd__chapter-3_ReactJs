@@ -1,3 +1,13 @@
 .messageWrapper {
   border: 1px solid white;
+  border-radius: 8px;
+  margin: 4px;
+}
+
+.messageWrapper h3 {
+  font-size: 24px;
+}
+
+.messageWrapper p {
+  font-size: 22px;
 }
