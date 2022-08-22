@@ -1,19 +1,16 @@
 import { Link, Route, Redirect } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   List,
   ListItem,
   ListItemButton,
   ListItemText,
 } from "@material-ui/core";
-import "./chats.css";
+import "../../style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addChat, delChat, fetchChats } from "../../store/actions/chatsAction";
+import { addChat, delChat } from "../../store/actions/chatsAction";
 import ChatInfo from "../ChatsInfo/ChatInfo";
-import {
-  addNewMessage,
-  fetchMessages,
-} from "../../store/actions/messageAction";
+import { addNewMessage } from "../../store/actions/messageAction";
 
 const Chats = () => {
   const chats = useSelector((state) => state.ChatReducer);
@@ -37,12 +34,6 @@ const Chats = () => {
       })
     );
   };
-
-  useEffect(() => {
-    dispatch(fetchChats());
-    dispatch(fetchMessages());
-  }, []);
-
   const delChatHandler = (id) => {
     dispatch(delChat(id));
   };
@@ -64,9 +55,9 @@ const Chats = () => {
           <Route path="/chats/:name" component={ChatInfo} />
           <Redirect to={"/chats"} />
 
-          <ul>
-            {chats?.map((object, index) => (
-              <li key={index}>
+          <List>
+            {chats.map((object, index) => (
+              <ListItem key={index}>
                 <ListItemButton>
                   <Link to={`/chats/${object.chatName}`}>
                     <ListItemText primary={object.name} />
@@ -75,9 +66,9 @@ const Chats = () => {
                     DELETE CHAT
                   </button>
                 </ListItemButton>
-              </li>
+              </ListItem>
             ))}
-          </ul>
+          </List>
         </div>
       </div>
     </div>
