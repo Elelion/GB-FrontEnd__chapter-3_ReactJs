@@ -1,8 +1,10 @@
 import React from "react";
 import {useState} from "react";
 import Button from "../Button/Button";
+import {ButtonGroup} from "@mui/material";
+import {Button as Btn} from "@mui/material";
 
-const CounterFunction = () => {
+const _CounterFunction = () => {
   // const countState = useState(0);
   // const count = countState[0];
   // const setCount = countState[1];
@@ -169,28 +171,30 @@ class Counter extends React.Component {
       <>
         <p>Counter: {this.state.count}</p>
 
-        <Button
-          onClickEvent={this.resetCount}
-          title='Сбросить'
-          status={this.state.buttonStatus}
-          timer={this.state.timer}
-        />
-        <Button
-          onClickEvent={this.updateCountSub}
-          title='-'
-          status={this.state.buttonStatus}
-          timer={this.state.timer}
-        />
-        <Button
-          onClickEvent={this.updateCountAdd}
-          title='+'
-          status={this.state.buttonStatus}
-          timer={this.state.timer}
-        />
+        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+          <Button
+            onClickEvent={this.resetCount}
+            title='Сбросить'
+            status={this.state.buttonStatus}
+            timer={this.state.timer}
+          />
+          <Button
+            onClickEvent={this.updateCountSub}
+            title='-'
+            status={this.state.buttonStatus}
+            timer={this.state.timer}
+          />
+          <Button
+            onClickEvent={this.updateCountAdd}
+            title='+'
+            status={this.state.buttonStatus}
+            timer={this.state.timer}
+          />
+        </ButtonGroup>
 
-        <button onClick={this.toggleButton}>
+        <Btn onClick={this.toggleButton} variant="contained">
           Btn toggle: <b>{this.state.showButton === true ? 'true' : 'false'}</b>
-        </button>
+        </Btn>
       </>
     )
   }

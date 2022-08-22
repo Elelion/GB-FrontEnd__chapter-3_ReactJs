@@ -5,24 +5,30 @@ import Counter from "./components/Counter/Counter";
 import {useState, useEffect} from "react";
 import Form from "./components/Form/Form";
 import {AUTHORS} from "./components/constants";
+import FormMaterialUI from "./components/FormMaterialUI/FormMaterialUI";
 
 function App() {
   const initialMessageState = [
-    { message: 'msg1', author: 'Alex' },
-    { message: 'msg2', author: 'Ben' },
+    { id: 1, message: 'msg1', author: 'Alex' },
+    { id: 2, message: 'msg2', author: 'Ben' },
+    { id: 3, message: 'msg3', author: 'Peter' },
   ];
 
   const [messageList, setMessageList] = useState(initialMessageState);
+  // const [toggle, setToggle] = useState(false);
 
   const sendMessage = (text, author) => {
     const newMsg = {
       text,
-      author
+      author,
+      id: messageList[messageList.length - 1].id +1,
     }
 
     setMessageList((prevMessageList) => [
       ...prevMessageList, newMsg
     ]);
+
+    console.log(messageList);
   }
 
   /**
@@ -68,9 +74,38 @@ function App() {
           Edit <code>src/App.js</code> and save to reload.
         </p>
 
-        <MessageList messages={messageList}/>
+        {/**/}
+
+        {/*
+        обычный тернарник, toggle === false / true
+        НО писать так - ОЧЕНЬ плохо, это плохо для производительности и в целом
+        */}
+        {/*
+        <button
+          onClick={() => {setToggle(prevState => !prevState)}}
+        >
+          Toggle Div / Sec
+        </button>
+
+        {toggle
+          ? (<div>
+              <MessageList messages={messageList}/>
+            </div>)
+          : (<section>
+              <MessageList messages={messageList}/>
+            </section>
+          )}
+        */}
+
+        <div>
+          <MessageList messages={messageList}/>
+        </div>
+
+        {/**/}
+
         <Counter />
-        <Form onSubmitEvent={handleAddMessage} />
+        {/*<Form onSubmitEvent={handleAddMessage} />*/}
+        <FormMaterialUI onSubmitEvent={handleAddMessage} />
       </header>
     </div>
   );
@@ -78,4 +113,9 @@ function App() {
 
 export default App;
 
-// 34
+// 28
+
+/**
+ * ставим Material UI
+ * npm install @mui/material @emotion/react @emotion/styled
+ */

@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useCallback} from "react";
+import {Button as Btn} from "@mui/material";
 
 const Button = (props) => {
   const [count, setCount] = useState(0);
@@ -46,12 +47,14 @@ const Button = (props) => {
 
   return (
     <>
-      <button
+      <Btn
+        variant="contained"
+
         disabled={props.status}
         onClick={props.onClickEvent}
       >
         <b>{props.title}</b> (осталось: {props.timer})
-      </button>
+      </Btn>
 
       {/*<button onClick={updateCount}>updateCount</button>*/}
     </>
