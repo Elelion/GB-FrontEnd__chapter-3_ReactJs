@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useCallback} from "react";
-import {Button as Btn} from "@mui/material";
+import {Button} from "@mui/material";
 
-const Button = (props) => {
+const Btn = (props) => {
   const [count, setCount] = useState(0);
 
   /**
@@ -47,14 +47,14 @@ const Button = (props) => {
 
   return (
     <>
-      <Btn
+      <Button
         variant="contained"
 
         disabled={props.status}
         onClick={props.onClickEvent}
       >
         <b>{props.title}</b> (осталось: {props.timer})
-      </Btn>
+      </Button>
 
       {/*<button onClick={updateCount}>updateCount</button>*/}
     </>
@@ -105,4 +105,55 @@ class _Button extends React.Component {
   }
 }
 
-export default Button;
+export default Btn;
+
+/**/
+
+// задаем инлайновые стили для корректировок
+const useStyles = ({
+  button: {
+    height: 60,
+  },
+});
+
+export const ButtonWithImage = ({src, onClick, className='none'}) => {
+  return (
+    <Button variant="contained" onClick={onClick}>
+      <img
+        src={src}
+        alt="ButtonImg"
+        width="70px"
+        className={className}
+        style={useStyles.button}/>
+    </Button>
+  )
+}
+
+export const ButtonWithText = ({text, onClick}) => {
+  return (
+    <Button variant="contained" onClick={onClick}>
+      <span>{text}</span>
+    </Button>
+  )
+}
+
+export const ButtonWithElement = ({element, onClick}) => {
+  return (
+    <div onClick={onClick}>
+      {element}
+    </div>
+  )
+}
+
+/**
+ * children - название props которое устанавливается React
+ * позволяет между тегами <ButtonChildren></ButtonChildren> размещать
+ * HTML код
+ */
+export const ButtonChildren = ({children, onClick}) => {
+  return (
+    <div onClick={onClick}>
+      {children}
+    </div>
+  )
+}
