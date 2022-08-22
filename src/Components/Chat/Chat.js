@@ -1,10 +1,10 @@
 import MessageList from "../MessageList/MessageList";
-import FormMaterialUI from "../FormMaterialUI/FormMaterialUI";
+import FormMaterialUI, {FormWithLogger} from "../FormMaterialUI/FormMaterialUI";
 import {useEffect, useState} from "react";
-import {AUTHORS} from "../constants";
+import {AUTHORS} from "../helpers/constants";
 import {Navigate, useParams} from "react-router-dom";
 
-export const Chat = () => {
+export const Chat = (props) => {
   /**
    * useParams - принимает параметры, которые мы передаем в нашем URL,
    * ChatsList -> <Link to={`/chats/${chat.id}`}>{chat.name}</Link>
@@ -17,6 +17,7 @@ export const Chat = () => {
   const initialMessageState = [
     { id: 1, message: 'msg1', author: 'Alex' },
     { id: 2, message: 'msg2', author: 'Ben' },
+    { id: 3, message: 'msg3', author: 'Pet' },
   ];
 
   const [messageList, setMessageList] = useState(initialMessageState);
@@ -32,6 +33,8 @@ export const Chat = () => {
     setMessageList((prevMessageList) => [
       ...prevMessageList, newMsg
     ]);
+
+    console.log(messageList);
   }
 
   /**
@@ -77,11 +80,15 @@ export const Chat = () => {
   return (
     <>
       <div>
-        <MessageList messages={messageList} chatId={chatId.id} />
+        <MessageList messages={messageList} chatId={chatId.id} /*messageColor={props.messageColor}*/ />
       </div>
 
       {/*<Form onSubmitEvent={handleAddMessage} />*/}
-      <FormMaterialUI onSubmitEvent={handleAddMessage} />
+
+      {/*меняем нашу форму на форму с логером*/}
+      {/*<FormMaterialUI onSubmitEvent={handleAddMessage} />*/}
+
+      <FormWithLogger onSubmitEvent={handleAddMessage} />
     </>
   )
 }

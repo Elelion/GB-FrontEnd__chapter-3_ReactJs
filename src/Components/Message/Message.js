@@ -1,8 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import classes from "./Message.module.css";
 import PropTypes from 'prop-types';
+import {ThemeContext} from "../helpers/ThemeContext";
 
-class Message extends React.Component {
+/**
+ * класс используется как правило в контейнерной компоненте
+ * но не в презентационной
+ */
+class _Message extends React.Component {
   handleMessageClick = () => {
     console.log('click handle');
   }
@@ -24,6 +29,32 @@ class Message extends React.Component {
       </div>
     )
   }
+}
+
+const Message = (props) => {
+  const {messageColor} = useContext(ThemeContext);
+
+  const handleMessageClick = () => {
+    console.log('click handle');
+  }
+
+  /**/
+
+  return (
+    <div  className={classes.messageWrapper}>
+      <h3>Message component</h3>
+      <h4>id: {props.id}</h4>
+
+      {/*<span style={{color: props.messageColor}}>*/}
+      <span style={{color: messageColor}}>
+        <p>author: {props.author}</p>
+      </span>
+
+      <p>props: {props.text}</p>
+      <p>my str: {props.myString}</p>
+      <p onClick={handleMessageClick}>click me</p>
+    </div>
+  )
 }
 
 /**
