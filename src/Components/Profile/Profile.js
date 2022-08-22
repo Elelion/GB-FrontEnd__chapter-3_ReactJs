@@ -44,7 +44,10 @@ const Profile = () => {
           Полный дзен
         </p>
         <p>
-          <button type="submit">Выбрать</button>
+          {/*<button type="submit" onClick={clickCondition}>*/}
+          <button type="submit">
+            Выбрать
+          </button>
         </p>
       </form>
 
