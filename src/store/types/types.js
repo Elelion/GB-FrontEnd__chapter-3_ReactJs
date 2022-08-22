@@ -7,3 +7,7 @@ export const GET_HP_PERSONS = "GET_HP_PERSONS";
 export const ADD_HP_PERSONS = "ADD_HP_PERSONS";
 export const CLEAR_HP_PERSONS = "CLEAR_HP_PERSONS";
 export const SPINNER_FLG = "SPINNER_FLG";
+export const USER_LOGIN = "USER_LOGIN";
+export const SET_ERROR = "SET_ERROR";
+export const USER_LOGOUT = "USER_LOGOUT";
+export const GET_CHATS = "GET_CHATS";

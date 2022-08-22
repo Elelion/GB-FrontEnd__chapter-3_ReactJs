@@ -6,28 +6,9 @@ import Profile from "./Profile/Profile";
 import "../style.css";
 import ChatInfo from "./ChatsInfo/ChatInfo";
 import API from "./API/API";
+import PrivateRoute from "./SecureRoute/SecureRoute";
 
 function App() {
-
-  /*
-
-  // import {onAuthStateChanged} from "firebase/auth";
-  // import {setAuth} from "store/scripts/saucelabs/saucelabs-api";
-
-  useEffect(() => {
-    const unSubscribe = onAuthStateChanged((user) => {
-      if (user) {
-        setAuth(true);
-      } else {
-        setAuth(false);
-      }
-    })
-
-    return unSubscribe();
-  }, []);
- */
-  
-
   return (
     <div className="App">
       <div className="nav">
@@ -41,11 +22,10 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={Main} />
-        <Route exact path="/profile" component={Profile} />
-        <Route path="/chats" component={Chats} />
+        <PrivateRoute path="/chats" component={Chats} />
         <Route path="/chats/:chat" component={ChatInfo} />
+        <Route exact path="/profile" component={Profile} />
         <Route path="/api" component={API} />
-
         <Route component={NotFound} />
       </Switch>
     </div>

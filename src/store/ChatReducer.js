@@ -1,19 +1,11 @@
-import { ADD_CHAT, DELETE_CHAT } from "./types/types";
+import { ADD_CHAT, DELETE_CHAT, GET_CHATS } from "./types/types";
 
-const initialState = [
-  { id: 0, chatName: "firstchat", name: "Чат #1" },
-  { id: 1, chatName: "secondchat", name: "Чат #2" },
-];
+const initialState = null;
 
-const ChatReducer = (state = initialState, { payload, type }) => {
+const ChatReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case ADD_CHAT:
-      return [
-        ...state,
-        { id: payload.id, chatName: payload.chatName, name: payload.name },
-      ];
-    case DELETE_CHAT:
-      return [...state.filter((el) => el.id !== payload)];
+    case GET_CHATS:
+      return payload;
     default:
       return state;
   }

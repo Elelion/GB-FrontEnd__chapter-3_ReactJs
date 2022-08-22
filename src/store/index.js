@@ -8,6 +8,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import HarryPotterReducer from "./HarryPotterReducer";
 import SpinnerReducer from "./SpinnerReducer";
+import userReducer from "./userReducer";
 
 const persistConfig = {
   key: "root",
@@ -16,6 +17,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+  userReducer,
   ConditionReducer,
   ChatReducer,
   MessageReducer,
