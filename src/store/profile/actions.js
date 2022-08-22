@@ -15,3 +15,14 @@ export const changeShowName = {
 export const changeCheckBoxStatus = {
   type: CHANGE_CHECK_BOX_STATUS,
 }
+
+/**/
+
+/**
+ * подобные ф-ции называются ActionCreator
+ * те создатели Actions
+ */
+export const changeName = (newName) => ({
+  type: CHANGE_NAME,
+  payload: newName,
+});

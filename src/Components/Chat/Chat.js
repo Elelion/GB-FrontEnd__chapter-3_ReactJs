@@ -14,37 +14,6 @@ export const Chat = (props) => {
    */
   const chatId = useParams();
 
-  const initialMessageState = [
-    { id: 1, message: 'msg1', author: 'Alex' },
-    { id: 2, message: 'msg2', author: 'Ben' },
-    { id: 3, message: 'msg3', author: 'Pet' },
-  ];
-
-  const [messageList, setMessageList] = useState(initialMessageState);
-  // const [toggle, setToggle] = useState(false);
-
-  const sendMessage = (message, author) => {
-    const newMsg = {
-      message,
-      author,
-      id: messageList[messageList.length - 1].id + 1,
-    }
-
-    setMessageList((prevMessageList) => [
-      ...prevMessageList, newMsg
-    ]);
-
-    console.log(messageList);
-  }
-
-  /**
-   * НЕ надо использовать .push для работы с state, тк push будет мутировать
-   * наш state
-   */
-  const handleAddMessage = (message) => {
-    sendMessage(message, AUTHORS.ME);
-  }
-
   // консолим последний елемент массива с сообщениями
   useEffect(() => {
     let timeout;
@@ -54,9 +23,9 @@ export const Chat = (props) => {
      * ЕСЛИ с ЛЕВА от ? будет null / undefined то с ПРАВА от ? - не чего
      * не выполнится
      */
-    if (messageList[messageList.length - 1]?.author === AUTHORS.ME) {
+    if (props.messageList[props.messageList.length - 1]?.author === AUTHORS.ME) {
       timeout = setTimeout(() => {
-        sendMessage('Hello, im a bot', AUTHORS.BOT);
+        props.sendMessage('Hello, im a bot', AUTHORS.BOT);
       }, 2000)
 
       /**
@@ -70,9 +39,9 @@ export const Chat = (props) => {
         clearTimeout(timeout)
       }
     }
-  }, [messageList]);
+  }, [props.messageList]);
 
-  if (!messageList[chatId.id - 1]) {
+  if (!props.messageList[chatId.id - 1]) {
     // Navigate - редирект, replace - заменить текущий маршрут
     return <Navigate to="/chats" replace />
   }
@@ -80,7 +49,7 @@ export const Chat = (props) => {
   return (
     <>
       <div>
-        <MessageList messages={messageList} chatId={chatId.id} /*messageColor={props.messageColor}*/ />
+        <MessageList messages={props.messageList} chatId={chatId.id} /*messageColor={props.messageColor}*/ />
       </div>
 
       {/*<Form onSubmitEvent={handleAddMessage} />*/}
@@ -88,7 +57,7 @@ export const Chat = (props) => {
       {/*меняем нашу форму на форму с логером*/}
       {/*<FormMaterialUI onSubmitEvent={handleAddMessage} />*/}
 
-      <FormWithLogger onSubmitEvent={handleAddMessage} />
+      <FormWithLogger onSubmitEvent={props.handleAddMessage} />
     </>
   )
 }
