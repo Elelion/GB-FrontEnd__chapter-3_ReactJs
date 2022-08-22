@@ -3,71 +3,23 @@ import './App.css';
 import MessageList from "./components/MessageList/MessageList";
 import Counter from "./components/Counter/Counter";
 import {useState, useEffect} from "react";
-import Form from "./components/Form/Form";
 import {AUTHORS} from "./components/constants";
 import FormMaterialUI from "./components/FormMaterialUI/FormMaterialUI";
+import {
+  ButtonChildren,
+  ButtonWithElement,
+  ButtonWithImage,
+  ButtonWithText
+} from "./components/Button/Button";
+import {ButtonGroup} from "@mui/material";
+import {Router} from "./components/Router/Router";
+
+/**/
 
 function App() {
-  const initialMessageState = [
-    { id: 1, message: 'msg1', author: 'Alex' },
-    { id: 2, message: 'msg2', author: 'Ben' },
-    { id: 3, message: 'msg3', author: 'Peter' },
-  ];
-
-  const [messageList, setMessageList] = useState(initialMessageState);
-  // const [toggle, setToggle] = useState(false);
-
-  const sendMessage = (text, author) => {
-    const newMsg = {
-      text,
-      author,
-      id: messageList[messageList.length - 1].id +1,
-    }
-
-    setMessageList((prevMessageList) => [
-      ...prevMessageList, newMsg
-    ]);
-
-    console.log(messageList);
-  }
-
-  /**
-   * НЕ надо использовать .push для работы с state, тк push будет мутировать
-   * наш state
-   */
-  const handleAddMessage = (text) => {
-    sendMessage(text, AUTHORS.ME);
-  }
-
-  // консолим последний елемент массива с сообщениями
-  useEffect(() => {
-    let timeout;
-
-    /**
-     * ? - это условие, которое проверяет на null / undefined. Как это работает ?
-     * ЕСЛИ с ЛЕВА от ? будет null / undefined то с ПРАВА от ? - не чего
-     * не выполнится
-     */
-    if (messageList[messageList.length - 1]?.author === AUTHORS.ME) {
-      timeout = setTimeout(() => {
-        sendMessage('Hello, im a bot', AUTHORS.BOT);
-      }, 2000)
-
-      /**
-       * удаляем наш setTimeout что бы не было не предвиденных утеченк памяти
-       * а так же что бы не вызывались лишние методы для удаления
-       *
-       * оборачиваем clearTimeout в return () => {...} тк если НЕ обернуть, то
-       * clearTimeout выполнится сразу же.
-       */
-      return () => {
-        clearTimeout(timeout)
-      }
-    }
-  }, [messageList]);
 
   return (
-    <div className="App">
+      <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -97,15 +49,42 @@ function App() {
           )}
         */}
 
-        <div>
-          <MessageList messages={messageList}/>
-        </div>
+        <ButtonGroup variant="contained" aria-label="outlined primary button group">
+          <ButtonWithImage onClick={() => {  }} src={logo} className={'App-logo'}/>
+          <ButtonWithText onClick={() => {  }} text={"hello"} />
+          <ButtonWithElement onClick={() => {  }}
+            element={<span style={{fontWeight: "bolder", color: "#61dafb"}}>Hello</span>}/>
+
+          <ButtonChildren onClick={() => {  }}>
+            <div>
+              Children
+            </div>
+          </ButtonChildren>
+        </ButtonGroup>
 
         {/**/}
 
         <Counter />
-        {/*<Form onSubmitEvent={handleAddMessage} />*/}
-        <FormMaterialUI onSubmitEvent={handleAddMessage} />
+
+
+        {/**/}
+
+        {/*
+        если мы хотим обернуть в роуты наш App, то нужно сделать так:
+          <BrowserRouter>
+            <div className="App">
+              ...
+              создать компонент где будут наши линки <Link .../> типа NavBar
+
+              а ниже описать маршруты
+              <Routes>
+                <Route path=... />
+              </Routes>
+            </div>
+          <BrowserRouter>
+        */}
+
+        <Router />
       </header>
     </div>
   );
@@ -113,7 +92,7 @@ function App() {
 
 export default App;
 
-// 28
+// 20-30
 
 /**
  * ставим Material UI
