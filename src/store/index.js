@@ -6,17 +6,21 @@ import MessageReducer from "./MessageReducer";
 import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import HarryPotterReducer from "./HarryPotterReducer";
+import SpinnerReducer from "./SpinnerReducer";
 
 const persistConfig = {
   key: "root",
   storage: storage,
-  blacklist: ["Chats"],
+  blacklist: ["ChatReducer", "HarryPotterReducer"],
 };
 
 const rootReducer = combineReducers({
   ConditionReducer,
   ChatReducer,
   MessageReducer,
+  HarryPotterReducer,
+  SpinnerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
