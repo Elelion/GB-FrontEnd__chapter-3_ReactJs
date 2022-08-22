@@ -2,12 +2,119 @@ import {BrowserRouter, Link, NavLink, Route, Routes} from "react-router-dom";
 import {Home} from "../Home/Home";
 import {ChatList} from "../ChatList/ChatList";
 import {Chat} from "../Chat/Chat";
-import {Profile} from "../Profile/Profile";
+// import {Profile} from "../Profile/Profile";
+import ConnectedProfile , {Profile} from "../Profile/Profile";
 import {useState} from "react";
 import {ThemeContext} from "../helpers/ThemeContext";
+import {AUTHORS} from "../helpers/constants";
+import {useDispatch, useSelector} from "react-redux";
+import {addChat, deleteChat} from "../../store/chats/actions";
+
+/**/
+
+const initialChats = [
+  {
+    id: 1,
+    name: 'Chat 1',
+  },
+  {
+    id: 2,
+    name: 'Chat 2',
+  },
+  {
+    id: 3,
+    name: 'Chat 3',
+  }
+];
+
+/**
+ * reduce - перебирающий метод, берет каждый елемент и позволяет выполнить над ним
+ * какое то действие...
+ * работает через callback, где первый елемент callback это аккумулятор, начальное
+ * его состояние , второй елемент - сам елемент массива
+ * те грубо говоря, пробежались по массиву и выполнили для каждого елемента
+ * какую то операцию. Можно было сделать и через forEach, но лучше reduce тк не
+ * будет наверняка мутации
+ */
+const _initialMessages = initialChats.reduce((acc, el) => {
+  // аналогично acc.chat1 = []; acc.chat2 = [];...
+  acc[el.id] = [];
+  return acc;
+}, {});
+
+const initialMessages = [
+  { id: 1, message: 'msg1', author: 'Alex' },
+  { id: 2, message: 'msg2', author: 'Ben' },
+  { id: 3, message: 'msg3', author: 'Pet' },
+];
+
+console.log('---');
+console.log('reduce: ')
+console.log(initialChats);
+console.log(initialMessages);
+console.log('...');
+
+/**/
 
 export const Router = () => {
   const [messageColor, setMessageColor] = useState('blue');
+
+  /**
+   * заменяем это на useSelector...
+   * где указываем state, state - это обращение к нашему store.js, тк
+   * он является же и state
+   */
+  // const [_chatList, setChatList] = useState(initialChats);
+  // useSelector - хук, позволяющий получить данные из store
+  const chatList = useSelector(state => state.chats);
+  const dispatch = useDispatch();
+
+  const [messageList, setMessageList] = useState(initialMessages);
+
+  const handleDeleteChat = (idToDelete) => {
+    // делаем через dispatch
+    // const newChats = chatList.filter(chat => chat.id !== idToDelete);
+    // setChatList(newChats);
+
+    dispatch(deleteChat(idToDelete));
+
+    /**
+     * delete - мутирует объект с которым мы взаимодействуем, по этому
+     * работать только с копией
+     */
+    // const newMessageList = {...chatList};
+    // delete newMessageList[idToDelete];
+    // setChatList(newMessageList);
+  }
+
+  /**/
+
+  const sendMessage = (message, author) => {
+    const newMsg = {
+      message,
+      author,
+      id: messageList[messageList.length - 1].id + 1,
+    }
+
+    setMessageList((prevMessageList) => [
+      ...prevMessageList, newMsg
+    ]);
+
+    /**/
+
+    const newId = `${Date.now()}`;
+    dispatch(addChat(newId, author, message))
+  }
+
+  /**
+   * НЕ надо использовать .push для работы с state, тк push будет мутировать
+   * наш state
+   */
+  const handleAddMessage = (message) => {
+    sendMessage(message, AUTHORS.ME);
+  }
+
+  /**/
 
   return (
     /**
@@ -72,12 +179,29 @@ export const Router = () => {
         <Route index element={<ChatList />}/>
         */}
 
-        <Route path="chats" element={<ChatList /> }/>
-        <Route exact path='/chats/:id' element={<Chat /*messageColor={messageColor}*/ />} />
+        <Route
+          path="chats"
+          element={<ChatList
+            chatList={chatList}
+            handleDeleteChat={handleDeleteChat}
+          />}
+        />
+        <Route
+          exact
+          path='/chats/:id'
+          element={<Chat
+            sendMessage={sendMessage}
+            messageList={messageList}
+            handleAddMessage={handleAddMessage}
+            /*messageColor={messageColor}*/
+          />}
+        />
 
         {/**/}
 
-        <Route path="profile" element={<Profile /*changeColor={setMessageColor}*/ />} />
+        {/*changeColor={setMessageColor} - надо закомментировать*/}
+        {/*<Route path="profile" element={<Profile changeColor={setMessageColor} />} />*/}
+        <Route path="profile" element={<ConnectedProfile />} />
 
         {/**/}
 

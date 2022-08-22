@@ -1,12 +1,22 @@
-import {profileReducer} from "./profile/profileReducer";
-import {createStore} from "redux";
+import {profileReducer} from "./profile/reducer";
+import {chatReducer} from "./chats/reducer";
+import {createStore, combineReducers} from "redux";
+
+/**
+ * combineReducers - запихнет все в одну большую ф-цию и будет выдавать нам
+ * результат в удобно читаемом виде
+ */
+const rootReducer = combineReducers({
+  profile: profileReducer,
+  chats: chatReducer,
+})
 
 /**
  * создаем тем самым store
- * в стор мы пихаем наш profileReducer
+ * в стор мы пихаем наш profileReducer итп
  */
 export const store = createStore(
-  profileReducer,
+  rootReducer,
 
   // добавляем для работы с расширением ReduxDevTools
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
